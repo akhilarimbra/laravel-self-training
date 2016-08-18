@@ -5,20 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\NiceAction;
+use App\NiceActionLog;
 
 class DoController extends Controller {
     public function getHome () {
         $actions = NiceAction::all();
+        $action_logs = NiceActionLog::all();
         return view('home', [
-            'actions' => $actions
+            'actions' => $actions,
+            'action_logs' => $action_logs
         ]);
     }
     
     public function getDoAction ($action) {
+        $name = null;
+        $nice_action = NiceAction::where('name', $action)->first();
+        $nice_action_log = new NiceActionLog();
+        $nice_action->logged_actions()->save($nice_action_log);
+        
         return view('actions.do', ['action' => $action]);
     }
     
     public function getNiceAction ($action, $name = null) {
+        $nice_action = NiceAction::where('name', $action)->first();
+        $nice_action_log = new NiceActionLog();
+        $nice_action->loggedActions()->save($nice_action_log);
+        
         return view('actions.'.$action, [
             'name' => $name
         ]);

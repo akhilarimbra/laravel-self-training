@@ -27,6 +27,11 @@ Learning Laravel PHP framework for web artisans
         @foreach ($actions as $action)
             <a href="{{ route('niceaction', ['action' => lcfirst($action['name'])]) }}">{{ $action['name'] }}</a>
         @endforeach
+        <ul>
+            @foreach ($action_logs as $action_log)
+                <li>{{ $action_log->nice_action->name }}</li>
+            @endforeach
+        </ul>
         <h2>Add Action</h2>
         <form method="post" action="{{ route('add_action') }}">
             <label for="select-action">Action Name</label>
