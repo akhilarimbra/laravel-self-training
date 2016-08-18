@@ -11,7 +11,29 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [
+    'uses' => 'DoController@getHome',
+    'as' => 'home'
+]);
 
+Route::group(['prefix' => 'do'], function() {
+    Route::get('/{action}', [
+       'uses' => 'DoController@getDoAction',
+       'as' => 'doaction'
+    ]);
+    
+    Route::get('/{action}/{name?}', [
+        'uses' => 'DoController@getNiceAction',
+        'as' => 'niceaction'
+    ]);
+    
+    Route::post('/add/action', [
+        'uses' => 'DoController@postAddAction',
+        'as' => 'add_action'
+    ]);
+    
+    Route::post('/', [
+        'uses' => 'DoController@postNiceAction',
+        'as' => 'benice'
+    ]);    
+});

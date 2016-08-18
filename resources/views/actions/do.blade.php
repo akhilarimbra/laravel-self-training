@@ -13,27 +13,26 @@ Learning Laravel PHP framework for web artisans
                 </ul>
             </div>
         @endif
+        @if (isset($action))
+            <h1>I {{ $action }} YOU !!!</h1>
+        @else
+            <h1>I greet you !!!</h1>
+        @endif
         <form method="post" action="{{ route('benice') }}">
             <label for="select-action">I want to ...</label>
             <select name="action" id="select-action">
-                @foreach ($actions as $action)
-                    <option value="{{ $action['name'] }}">{{ $action['name'] }}</option>
-                @endforeach
+                <option value="greet">Greet</option>
+                <option value="hug">Hug</option>
+                <option value="kiss">Kiss</option>
+                <option value="wave">Wave</option>
             </select>
             <input type="text" name="name" placeholder="Enter your name"/>
             <input type="submit" value="Perform Action"/>
             <input type="hidden" value="{{ Session::token() }}" name="_token"/>
         </form>
-        @foreach ($actions as $action)
-            <a href="{{ route('niceaction', ['action' => lcfirst($action['name'])]) }}">{{ $action['name'] }}</a>
-        @endforeach
-        <h2>Add Action</h2>
-        <form method="post" action="{{ route('add_action') }}">
-            <label for="select-action">Action Name</label>
-            <input type="text" name="name" placeholder="Name of the Action"/>
-            <input type="number" name="niceness" placeholder="Niceness of the Action"/>
-            <input type="submit" value="Add Action"/>
-            <input type="hidden" value="{{ Session::token() }}" name="_token"/>
-        </form>
+        <a href="{{ route('niceaction', ['action' => 'greet']) }}">Greet</a>
+        <a href="{{ route('niceaction', ['action' => 'hug']) }}">Hug</a>
+        <a href="{{ route('niceaction', ['action' => 'kiss']) }}">Kiss</a>
+        <a href="{{ route('niceaction', ['action' => 'wave']) }}">Wave</a>
     </div>
 @endsection
