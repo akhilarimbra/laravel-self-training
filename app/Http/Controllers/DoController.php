@@ -55,11 +55,16 @@ class DoController extends Controller {
             'action' => 'required',
             'name' => 'required|alpha'
         ]);
+        $nice_action = NiceAction::where('name', $request['action'])->first();
+        $nice_action_log = new NiceActionLog();
+        $nice_action->loggedActions()->save($nice_action_log);
         
         $actions = NiceAction::all();
+        $action_logs = NiceActionLog::all();
         
         return view('actions.nice', [
             'actions' => $actions,
+            'action_logs' => $action_logs,
             'action' => $request['action'],
             'name' => $this->transformName($request['name'])
         ]);
